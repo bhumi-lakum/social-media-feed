@@ -1,0 +1,27 @@
+from typing import Any, Dict, List, Optional
+
+from pydantic import BaseModel
+
+
+class User(BaseModel):
+    email: str
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+
+
+class ShowUser(User):
+    id: int
+
+    class Config:
+        orm_mode = True
+
+
+class ShowUserFew(BaseModel):
+    id: int
+    email: str
+
+
+class ShowUserList(BaseModel):
+    users: List[ShowUser]
+    skip: int
+    limit: int
