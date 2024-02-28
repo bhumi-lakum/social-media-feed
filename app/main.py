@@ -1,8 +1,8 @@
-from app.core.config import settings
-from app.routers import authentication, user
 from fastapi import APIRouter, FastAPI
 from motor.motor_asyncio import AsyncIOMotorClient
 
+from app.core.config import settings
+from app.routers import authentication, user
 
 app = FastAPI(
     title=settings.APPLICATION_TITLE,
