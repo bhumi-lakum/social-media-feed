@@ -1,22 +1,32 @@
 from app.core.config import settings
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from app.__version__ import __version__
+from motor import motor_asyncio, core
+from odmantic import AIOEngine
+from pymongo.driver_info import DriverInfo
 
-engine = create_engine(settings.DB_URI, pool_pre_ping=True)
-
-SessionLocal = sessionmaker(
-    bind=engine,
-    autocommit=False,
-    autoflush=False,
-)
-
-Base = declarative_base()
+DRIVER_INFO = DriverInfo(name="simform-social-media-app", version=__version__)
 
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+class _MongoClientSingleton:
+    mongo_client: motor_asyncio.AsyncIOMotorClient | None
+    engine: AIOEngine
+
+    def __new__(cls):
+        if not hasattr(cls, "instance"):
+            cls.instance = super(_MongoClientSingleton, cls).__new__(cls)
+            cls.instance.mongo_client = motor_asyncio.AsyncIOMotorClient(
+                settings.MONGODB_URI, driver=DRIVER_INFO
+            )
+            cls.instance.engine = AIOEngine(client=cls.instance.mongo_client, database=settings.DATABASE_NAME)
+        return cls.instance
+
+
+def MongoDatabase() -> core.AgnosticDatabase:
+    return _MongoClientSingleton().mongo_client[settings.MONGO_DATABASE]
+
+
+def get_engine() -> AIOEngine:
+    return _MongoClientSingleton().engine
+
+
+__all__ = ["MongoDatabase"]

@@ -31,13 +31,12 @@ class Settings(BaseSettings):
     APPLICATION_TITLE: str = os.environ.get("APPLICATION_TITLE", "Application")
     APPLICATION_API_VERSION: str = os.environ.get("APPLICATION_API_VERSION", "/v1")
     APPLICATION_VERSION: str = os.environ.get("APPLICATION_VERSION", "1.0.0")
-    MONGODB_URI = os.environ.get("MONGODB_URI", "mongodb://localhost:27017")
-    MONGODB_DATABASE = os.environ.get("MONGODB_DATABASE", "test")
+    MONGODB_URI: str = os.environ.get("MONGODB_URI", "mongodb://localhost:27017")
+    MONGODB_DATABASE: str = os.environ.get("MONGODB_DATABASE", "test")
 
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"
-        # case_sensitive = True
 
 
 settings = Settings()
