@@ -1,8 +1,8 @@
 from app.core.config import settings
-from app.core.database import engine
 from app.routers import authentication, user
-from app.schemas import models
 from fastapi import APIRouter, FastAPI
+from motor.motor_asyncio import AsyncIOMotorClient
+
 
 app = FastAPI(
     title=settings.APPLICATION_TITLE,
@@ -16,7 +16,11 @@ app = FastAPI(
     redoc_url=None,
 )
 
-models.Base.metadata.create_all(engine)
+
+async def get_database() -> AsyncIOMotorClient:
+    client = AsyncIOMotorClient(settings.MONGODB_URI)
+    db = client[settings.MONGODB_DATABASE]
+    return db
 
 router = APIRouter()
 

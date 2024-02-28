@@ -1,5 +1,4 @@
 from typing import Any, Dict, List, Optional
-
 from pydantic import BaseModel
 
 
@@ -25,3 +24,24 @@ class ShowUserList(BaseModel):
     users: List[ShowUser]
     skip: int
     limit: int
+
+
+class ShowFollowers(BaseModel):
+    followers: List[ShowUserFew]
+    skip: int
+    limit: int
+
+
+class ShowFollowing(BaseModel):
+    following: List[ShowUserFew]
+    skip: int
+    limit: int
+
+
+class ShowUserPosts(BaseModel):
+    id: int
+    email: str
+    posts: List[Dict[str, Any]]
+
+    class Config:
+        orm_mode = True
