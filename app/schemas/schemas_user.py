@@ -1,47 +1,57 @@
-from typing import Any, Dict, List, Optional
-from pydantic import BaseModel
+from typing import Optional
+from bson import ObjectId
+from pydantic import BaseModel, EmailStr
 
 
-class User(BaseModel):
-    email: str
-    first_name: Optional[str] = None
-    last_name: Optional[str] = None
+class UserLogin(BaseModel):
+    username: str
+    password: str
 
 
-class ShowUser(User):
-    id: int
-
-    class Config:
-        orm_mode = True
-
-
-class ShowUserFew(BaseModel):
-    id: int
+class UserBase(BaseModel):
+    first_name: str
+    last_name: str
     email: str
 
 
-class ShowUserList(BaseModel):
-    users: List[ShowUser]
-    skip: int
-    limit: int
+class UserCreate(UserBase):
+    email: EmailStr
+    password: str
 
 
-class ShowFollowers(BaseModel):
-    followers: List[ShowUserFew]
-    skip: int
-    limit: int
+class UserInDBBase(UserBase):
+    id: Optional[ObjectId] = None
+    email: EmailStr
 
 
-class ShowFollowing(BaseModel):
-    following: List[ShowUserFew]
-    skip: int
-    limit: int
+class PostBase(BaseModel):
+    title: str
+    content: str
+    published: Optional[bool] = False
 
 
-class ShowUserPosts(BaseModel):
-    id: int
-    email: str
-    posts: List[Dict[str, Any]]
+class PostCreate(PostBase):
+    title: str
+    content: str
+    author_id: ObjectId
 
-    class Config:
-        orm_mode = True
+
+class PostInDBBase(PostBase):
+    id: Optional[ObjectId] = None
+    author_id: Optional[ObjectId] = None
+
+
+class FollowBase(BaseModel):
+    follower_id: ObjectId
+    followed_id: ObjectId
+
+
+class FollowCreate(FollowBase):
+    follower_id: ObjectId
+    followed_id: ObjectId
+
+
+class FollowInDBBase(FollowBase):
+    id: Optional[ObjectId] = None
+    follower_id: Optional[ObjectId] = None
+    followed_id: Optional[ObjectId] = None

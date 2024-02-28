@@ -17,11 +17,6 @@ app = FastAPI(
 )
 
 
-async def get_database() -> AsyncIOMotorClient:
-    client = AsyncIOMotorClient(settings.MONGODB_URI)
-    db = client[settings.MONGODB_DATABASE]
-    return db
-
 router = APIRouter()
 
 # include all routers

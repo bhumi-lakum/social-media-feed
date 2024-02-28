@@ -1,17 +1,27 @@
-from fastapi.responses import Response
-from typing import Optional, List
+from typing import Optional
 from pydantic import BaseModel, Field, EmailStr
+from datetime import datetime
+from bson import ObjectId
 
 
-class User(BaseModel):
+class CustomBaseModel(BaseModel):
+    """
+    Custom base model for all other models to inherit from.
+    """
+
+    created_at: Optional[str] = Field(alias="created_at", default=datetime.now())
+    updated_at: Optional[str] = Field(alias="updated_at", default=datetime.now())
+
+    class Config:
+        orm_mode = True
+
+
+class User(CustomBaseModel):
     """
     Container for a single student record.
     """
 
-    # The primary key for the StudentModel, stored as a `str` on the instance.
-    # This will be aliased to `_id` when sent to MongoDB,
-    # but provided as `id` in the API requests and responses.
-    id: str = Field(alias="_id", default=None)
+    id: Optional[ObjectId] = Field(alias="_id", default=None)
     first_name: str = Field(...)
     last_name: str = Field(...)
     email: EmailStr = Field(...)
@@ -28,11 +38,12 @@ class User(BaseModel):
         }
 
 
-class Posts(User):
+class Posts(CustomBaseModel):
     """
     Container for a single post record.
     """
 
+    id: Optional[ObjectId] = Field(alias="_id", default=None)
     title: str = Field(...)
     content: str = Field(...)
     published: Optional[bool] = Field(...)
@@ -49,11 +60,12 @@ class Posts(User):
         }
 
 
-class Follows(User):
+class Follows(CustomBaseModel):
     """
     Container for a single follow record.
     """
 
+    id: Optional[ObjectId] = Field(alias="_id", default=None)
     follower_id: str = Field(...)
     followed_id: str = Field(...)
 
