@@ -19,7 +19,7 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
     CRUD CLASS - USER
     """
 
-    def get_by_email(self, *, email: str) -> Optional[User]:
+    def get_by_email(self, email: str) -> Optional[User]:
         """
         Method to retrieve user by email
         """

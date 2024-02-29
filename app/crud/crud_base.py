@@ -61,28 +61,26 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         db_obj = self.model(**obj_in_data)  # type: ignore
         return self.engine.save(db_obj)
 
-    # def update(
-    #     self,
-    #     db_session: AgnosticDatabase,
-    #     *,
-    #     db_obj: ModelType,
-    #     obj_in: Union[UpdateSchemaType, Dict[str, Any]]
-    # ) -> ModelType:
-    #     """
-    #     Method to update an object
-    #     """
-    #     obj_data = jsonable_encoder(db_obj)
-    #     if isinstance(obj_in, dict):
-    #         update_data = obj_in
-    #     else:
-    #         update_data = obj_in.dict(exclude_unset=True)
-    #     for field in obj_data:
-    #         if field in update_data:
-    #             setattr(db_obj, field, update_data[field])
-    #     db_session.add(db_obj)
-    #     db_session.commit()
-    #     db_session.refresh(db_obj)
-    #     return db_obj
+    def update(
+        self,
+        db_obj: ModelType,
+        obj_in: Union[UpdateSchemaType, Dict[str, Any]]
+    ) -> ModelType:
+        """
+        Method to update an object
+        """
+        obj_data = jsonable_encoder(db_obj)
+        if isinstance(obj_in, dict):
+            update_data = obj_in
+        else:
+            update_data = obj_in.dict(exclude_unset=True)
+        for field in obj_data:
+            if field in update_data:
+                setattr(db_obj, field, update_data[field])
+
+        # Save the updated object
+        updated_obj = self.engine.save(db_obj)
+        return updated_obj
 
     def remove(self, *, id_value: str) -> ModelType:
         """

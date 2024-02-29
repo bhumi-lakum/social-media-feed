@@ -8,7 +8,7 @@ from app.models.models_base import CustomBaseModel
 
 class User(Model):
     """
-    Container for a single student record.
+    Container for a single user record.
     """
 
     first_name: str = Field(...)

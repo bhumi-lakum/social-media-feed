@@ -11,10 +11,17 @@ class PostBase(BaseModel):
 
 
 class PostCreate(PostBase):
+    id: Optional[ObjectId] = None
     title: str
     content: str
     author_id: ObjectId
 
+class PostUpdate(PostBase):
+    title: str
+    content: str
+
+class PostView(PostBase):
+    author_id: ObjectId
 
 class PostInDBBase(PostBase):
     id: Optional[ObjectId] = None
