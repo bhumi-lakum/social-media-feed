@@ -23,8 +23,8 @@ class Settings(BaseSettings):
 
     # security auth token
     HASH_ALGORITHM: str = os.environ.get("HASH_ALGORITHM")
-    ACCESS_TOKEN_EXPIRY_MINUTES: int = os.environ.get("ACCESS_TOKEN_EXPIRY_MINUTES")
-    REFRESH_TOKEN_EXPIRY_MINUTES: int = os.environ.get("REFRESH_TOKEN_EXPIRY_MINUTES")
+    # ACCESS_TOKEN_EXPIRY_MINUTES: int = os.environ.get("ACCESS_TOKEN_EXPIRY_MINUTES")
+    # REFRESH_TOKEN_EXPIRY_MINUTES: int = os.environ.get("REFRESH_TOKEN_EXPIRY_MINUTES")
     JWT_SECRET_KEY: str = os.environ.get("JWT_SECRET_KEY")
     JWT_REFRESH_SECRET_KEY: str = os.environ.get("JWT_REFRESH_SECRET_KEY")
 

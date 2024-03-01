@@ -36,3 +36,13 @@ async def create_post(post_in: PostCreate):
     created_post = await crud_post.create(obj_in=post_in)
 
     return created_post
+
+
+# @router.get("/{post_id}", response_model=PostView)
+# async def create_post(post_id: str):
+#     """
+#     API for Creating Posts on the Platform
+#     """
+#     created_post = await crud_post.get(obj_in=post_id)
+
+#     return created_post

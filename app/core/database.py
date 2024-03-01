@@ -9,7 +9,7 @@ DRIVER_INFO = DriverInfo(name="simform-social-media-app", version=__version__)
 
 
 class _MongoClientSingleton:
-    mongo_client: motor_asyncio.AsyncIOMotorClient | None
+    mongo_client: motor_asyncio.AsyncIOMotorClient 
     engine: AIOEngine
 
     def __new__(cls):
