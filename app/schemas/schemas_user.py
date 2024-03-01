@@ -14,6 +14,7 @@ class UserLogin(UserBase):
 
 class UserCreate(UserBase):
     id: Optional[ObjectId] = None
+    user_name:str
     first_name: str
     last_name: str
     password: str
@@ -26,5 +27,6 @@ class UserUpdate(BaseModel):
 
 class UserView(BaseModel):
     id: ObjectId
+    user_name:str
     first_name: str
     last_name: str

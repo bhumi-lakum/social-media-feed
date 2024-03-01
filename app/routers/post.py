@@ -5,7 +5,7 @@ from fastapi import APIRouter, HTTPException, status
 
 from app.crud.crud_post import crud_post
 from app.schemas.schemas_response import BaseResponse
-from app.schemas.schemas_post import PostCreate, PostView
+from app.schemas.schemas_post import PostCreate, PostView, PostUpdate
 
 router = APIRouter(prefix="/posts", tags=["Posts"])
 logger = logging.getLogger(__name__)
@@ -38,11 +38,34 @@ async def create_post(post_in: PostCreate):
     return created_post
 
 
-# @router.get("/{post_id}", response_model=PostView)
-# async def create_post(post_id: str):
-#     """
-#     API for Creating Posts on the Platform
-#     """
-#     created_post = await crud_post.get(obj_in=post_id)
+@router.get("/{post_id}", response_model=PostView)
+async def get_post(post_id: str):
+    """
+    API for Retriving Posts on the Platform
+    """
+    post = await crud_post.get(ObjectId(post_id))
 
-#     return created_post
+    return post
+
+
+@router.patch("/{post_id}", response_model=PostView)
+async def update_post(post_id: str, user_update: PostUpdate):
+    """
+    API for Retriving Posts on the Platform
+    """
+    post = await crud_post.get(ObjectId(post_id))
+    updated_post = await crud_post.update(db_obj=post, obj_in=user_update)
+
+    return updated_post
+
+@router.delete("/{post_id}")
+async def delete_post(post_id: str):
+    """
+    API for Deleting Posts on the Platform
+    """
+    post = await crud_post.get(ObjectId(post_id))
+    if post is None:
+        raise HTTPException(status_code=404, detail="Post not found")
+
+    await crud_post.remove(post)
+    return {"message": "Post deleted successfully"}

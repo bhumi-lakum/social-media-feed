@@ -82,7 +82,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         updated_obj = self.engine.save(db_obj)
         return updated_obj
 
-    def remove(self, *, id_value: str) -> ModelType:
+    def remove(self,id_value: str) -> ModelType:
         """
         Method to Remove an object
         """

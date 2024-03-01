@@ -69,3 +69,16 @@ async def get_user(email: str):
         raise HTTPException(status_code=404, detail="User not found")
 
     return user
+
+
+@router.get("/{username}", response_model=UserView)
+async def get_user(username: str):
+    """
+    API for Retrieving User Information
+    """
+    # Retrieve the user by ID
+    user = await crud_user.get_by_username(username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    return user

@@ -24,6 +24,14 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
         Method to retrieve user by email
         """
         return self.engine.find_one(self.model, self.model.email == email)
+    
+
+    def get_by_username(self, username: str) -> Optional[User]:
+        """
+        Method to retrieve user by username
+        """
+        return self.engine.find_one(self.model, self.model.username == username)
+
 
 
 crud_user = CRUDUser(User)
