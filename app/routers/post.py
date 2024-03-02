@@ -22,10 +22,11 @@ user_found = HTTPException(
 
 @router.get("/", response_model=BaseResponse)
 async def get_all_posts():
+    """
+    API for Retrieving all Posts on the Platform
+    """
     data = await crud_post.get_multi_without_limit()
     return BaseResponse(success=True, message="List of all posts", data=data)
-
-
 
 
 @router.post("/", response_model=PostView)
@@ -41,7 +42,7 @@ async def create_post(post_in: PostCreate):
 @router.get("/{post_id}", response_model=PostView)
 async def get_post(post_id: str):
     """
-    API for Retriving Posts on the Platform
+    API for Retrieving a Post on the Platform
     """
     post = await crud_post.get(ObjectId(post_id))
 
@@ -51,17 +52,18 @@ async def get_post(post_id: str):
 @router.patch("/{post_id}", response_model=PostView)
 async def update_post(post_id: str, user_update: PostUpdate):
     """
-    API for Retriving Posts on the Platform
+    API for updating a Post on the Platform
     """
     post = await crud_post.get(ObjectId(post_id))
     updated_post = await crud_post.update(db_obj=post, obj_in=user_update)
 
     return updated_post
 
+
 @router.delete("/{post_id}")
 async def delete_post(post_id: str):
     """
-    API for Deleting Posts on the Platform
+    API for Deleting Post on the Platform
     """
     post = await crud_post.get(ObjectId(post_id))
     if post is None:

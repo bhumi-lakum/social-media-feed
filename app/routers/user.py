@@ -1,7 +1,7 @@
 import logging
 
 from bson import ObjectId
-from fastapi import APIRouter, HTTPException, Request, Security, status
+from fastapi import APIRouter, HTTPException, status
 
 from app.authentication.password_hashing import Hash
 from app.crud.crud_user import crud_user
@@ -54,8 +54,6 @@ async def update_user(email: str, user_update: UserUpdate):
     updated_user = await crud_user.update(db_obj=user, obj_in=user_update)
 
     return updated_user
-
-
 
 
 @router.get("/{email}", response_model=UserView)

@@ -1,5 +1,5 @@
 from typing import Optional
-
+from datetime import datetime
 from odmantic import ObjectId
 from pydantic import BaseModel
 
@@ -11,16 +11,18 @@ class PostBase(BaseModel):
 
 
 class PostCreate(PostBase):
-    title: str
-    content: str
     author_id: ObjectId
+
 
 class PostUpdate(BaseModel):
     title: str
     content: str
 
+
 class PostView(PostBase):
     author_id: ObjectId
+    created_at: datetime
+    updated_at: datetime
 
 # class PostInDBBase(PostBase):
 #     id: Optional[ObjectId] = None
