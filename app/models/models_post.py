@@ -2,7 +2,6 @@ from typing import Optional
 from odmantic import Field, Model, ObjectId
 from datetime import datetime
 
-
 class Posts(Model):
     """
     Container for a single post record.

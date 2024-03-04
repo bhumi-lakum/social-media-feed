@@ -43,12 +43,12 @@ async def register_user(user_in: UserCreate):
     return created_user
 
 
-@router.patch("/{email}", response_model=UserView)
-async def update_user(email: str, user_update: UserUpdate):
+@router.patch("/{post_id}", response_model=UserView)
+async def update_user(post_id: str, user_update: UserUpdate):
     """
     API for Updating User Information
     """
-    user = await crud_user.get_by_email(email)
+    user = await crud_user.get(ObjectId(post_id))
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     updated_user = await crud_user.update(db_obj=user, obj_in=user_update)
@@ -57,11 +57,10 @@ async def update_user(email: str, user_update: UserUpdate):
 
 
 @router.get("/{email}", response_model=UserView)
-async def get_user(email: str):
+async def get_user_by_email(email: str):
     """
     API for Retrieving User Information
     """
-    # Retrieve the user by ID
     user = await crud_user.get_by_email(email)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
@@ -69,12 +68,11 @@ async def get_user(email: str):
     return user
 
 
-@router.get("/{username}", response_model=UserView)
-async def get_user(username: str):
+@router.get("/username/{username}", response_model=UserView)
+async def get_user_by_username(username: str):
     """
     API for Retrieving User Information
     """
-    # Retrieve the user by ID
     user = await crud_user.get_by_username(username)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")

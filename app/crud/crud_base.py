@@ -3,6 +3,7 @@
 """
 
 from typing import Any, Dict, Generic, List, Optional, Type, TypeVar, Union
+from bson import ObjectId
 
 from fastapi.encoders import jsonable_encoder
 from motor.core import AgnosticDatabase
@@ -82,11 +83,15 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         updated_obj = self.engine.save(db_obj)
         return updated_obj
 
-    def remove(self,id_value: str) -> ModelType:
+    def remove(self, id_value: str) -> Optional[ModelType]:
         """
         Method to Remove an object
         """
-        obj = self.model.get(id_value)
-        if obj:
-            self.engine.delete(obj)
-        return obj
+        obj_id = ObjectId(id_value)
+
+        # Find the object by its ID
+        # obj =  self.engine.find_one(self.model, self.model.id == obj_id)
+        
+        
+        self.model.delete_one({"_id": obj_id})
+    

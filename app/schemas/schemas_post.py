@@ -20,6 +20,7 @@ class PostUpdate(BaseModel):
 
 
 class PostView(PostBase):
+    id: ObjectId
     author_id: ObjectId
     created_at: datetime
     updated_at: datetime

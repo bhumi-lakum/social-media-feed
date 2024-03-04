@@ -8,7 +8,7 @@ class User(Model):
     """
     Container for a single user record.
     """
-    user_name: str = Field(...)
+    username: str = Field(...)
     first_name: str = Field(...)
     last_name: str = Field(...)
     email: EmailStr = Field(...)
