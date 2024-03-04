@@ -1,12 +1,13 @@
 from datetime import datetime, timedelta
 
 import pytz
-from app.core.config import settings
-from app.schemas import models, schemas_authentication
 from fastapi import HTTPException, status
 from jose import ExpiredSignatureError, JWTError, jwt
 from pydantic import ValidationError
 from sqlalchemy.orm import Session
+
+from app.core.config import settings
+from app.models.models_user import User
 
 utc = pytz.UTC
 
@@ -52,7 +53,7 @@ def verify_token(token: str, credentials_exception, security_scopes, db: Session
         print(str(e))
         raise credentials_exception
 
-    user = db.query(models.User).filter(models.User.email == email).first()
+    user = db.query(User).filter(User.email == email).first()
     if user is None:
         raise credentials_exception
 
