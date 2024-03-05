@@ -5,7 +5,7 @@ from fastapi import APIRouter, HTTPException, status
 
 from app.core.ws_manager import connection_manager
 from app.crud.crud_post import crud_post
-from app.schemas.schemas_post import PostCreate, PostUpdate, PostView
+from app.schemas.schemas_post import PostCreate, PostUpdate, PostView, PersonalizedPost
 from app.schemas.schemas_response import BaseResponse
 
 router = APIRouter(prefix="/posts", tags=["Posts"])
@@ -76,3 +76,13 @@ async def delete_post(post_id: str):
 
     await crud_post.remove(post)
     return {"message": "Post deleted successfully"}
+
+
+@router.get("/personalized_feed/{author_id}", response_model=PersonalizedPost)
+async def get_post(author_id: str, skip: int = 0, limit: int = 50):
+    """
+    API for Retrieving personalized feed for the login user
+    """
+    post = await crud_post.get_personised_posts(ObjectId(author_id), skip, limit)
+
+    return {"posts": post, "skip": skip, "limit": limit}
