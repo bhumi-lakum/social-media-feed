@@ -1,5 +1,4 @@
 from app.authentication.password_hashing import Hash
-from app.core.email_service import send_email_background
 from app.schemas import models, schemas_user
 from fastapi import BackgroundTasks, HTTPException, status
 from fastapi.responses import JSONResponse

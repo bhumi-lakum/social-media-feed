@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 from datetime import datetime
 from odmantic import ObjectId
 from pydantic import BaseModel
@@ -24,6 +24,11 @@ class PostView(PostBase):
     author_id: ObjectId
     created_at: datetime
     updated_at: datetime
+
+class PersonalizedPost(BaseModel):
+    posts: List[PostView]
+    skip: int
+    limit: int
 
 # class PostInDBBase(PostBase):
 #     id: Optional[ObjectId] = None
